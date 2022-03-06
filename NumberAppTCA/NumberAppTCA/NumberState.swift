@@ -49,7 +49,7 @@ struct NumberState: Equatable {
 	}
 }
 
-enum NumberAction: AnalyticsAction {
+enum NumberAction: Equatable, AnalyticsAction {
 	case dismissAlertTapped
 
 	case onAppear

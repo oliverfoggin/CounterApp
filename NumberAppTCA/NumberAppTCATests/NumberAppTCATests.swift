@@ -6,31 +6,47 @@
 //
 
 import XCTest
+import ComposableArchitecture
 @testable import NumberAppTCA
 
 class NumberAppTCATests: XCTestCase {
+	func testStuff() {
+		var numberClient = NumberClient.failing
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+		let numberFact = NumberFact(
+			text: "This is an interesting number",
+			number: 10,
+			found: true,
+			type: .trivia
+		)
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+		numberClient.getFact = { _ in
+			.init(value: numberFact)
+		}
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+		let store = TestStore(
+			initialState: NumberState(),
+			reducer: numberReducer,
+			environment: .init(
+				numberClient: numberClient,
+				main: .immediate
+			)
+		)
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+		store.send(.incrementTapped) {
+			$0.number = 1
+		}
 
+		store.send(.decrementTapped) {
+			$0.number = 0
+		}
+
+		store.send(.getFactTapped) {
+			$0.numberFact = .loading
+		}
+
+		store.receive(.factReceived(.success(numberFact))) {
+			$0.numberFact = .success(numberFact)
+		}
+	}
 }

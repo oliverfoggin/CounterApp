@@ -42,3 +42,12 @@ extension NumberClient {
 		}
 	)
 }
+
+#if DEBUG
+	extension NumberClient {
+		public static let failing = Self(
+			getFact: { _ in .failing("NumberClient.getFact") },
+			getRandomNumber: { .failing("NumberClient.getRandomNumber") }
+		)
+	}
+#endif
