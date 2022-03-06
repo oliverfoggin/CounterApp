@@ -49,9 +49,9 @@ public enum NumberAction: Equatable, AnalyticsAction {
 	public var event: Event {
 		switch self {
 		case let .randomNumberReceived(.success(number?)):
-			return .init(name: "randomNumberReceived", parameters: ["number": number])
+			return .event(name: "randomNumberReceived", parameters: ["number": number])
 		case let .factReceived(.success(fact?)):
-			return .init(
+			return .event(
 				name: "factReceived",
 				parameters: [
 					"number": fact.number,
@@ -59,9 +59,9 @@ public enum NumberAction: Equatable, AnalyticsAction {
 				]
 			)
 		case .onAppear:
-			return .screenView(screenName: "Number App View", screenClass: "ContentView")
+			return .screen(screenName: "Number App View", className: "ContentView")
 		default:
-			return .init(name: "\(self)", parameters: nil)
+			return .event(name: "\(self)", parameters: nil)
 		}
 	}
 }
@@ -131,4 +131,4 @@ public let numberReducer = Reducer<NumberState, NumberAction, NumberEnvironment>
 	}
 }
 	.debug()
-	.firebaseAnalytics()
+	.analytics()
