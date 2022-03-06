@@ -10,11 +10,19 @@ import CasePaths
 import ComposableArchitecture
 import FirebaseAnalytics
 
-struct Event {
+public struct Event {
 	let name: String
 	let parameters: [String: Any]?
 
-	static func screenView(screenName: String, screenClass: String = "") -> Self {
+	public init(
+		name: String,
+		parameters: [String: Any]?
+	) {
+		self.name = name
+		self.parameters = parameters
+	}
+
+	public static func screenView(screenName: String, screenClass: String = "") -> Self {
 		.init(name: AnalyticsEventScreenView, parameters: [
 			AnalyticsParameterScreenName: screenName,
 			AnalyticsParameterScreenClass: screenClass
@@ -22,17 +30,17 @@ struct Event {
 	}
 }
 
-protocol AnalyticsAction {
+public protocol AnalyticsAction {
 	var event: Event { get }
 }
 
-extension AnalyticsAction {
+public extension AnalyticsAction {
 	var event: Event {
 		.init(name: "\(self)", parameters: nil)
 	}
 }
 
-extension Reducer where Action: AnalyticsAction {
+public extension Reducer where Action: AnalyticsAction {
 	func firebaseAnalytics() -> Reducer {
 		return .init { state, action, environment in
 			let effects = self.run(&state, action, environment)

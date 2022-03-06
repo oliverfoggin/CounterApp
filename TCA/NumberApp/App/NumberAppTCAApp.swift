@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import ComposableArchitecture
+import NumberCore
 
 @main
 struct NumberAppTCAApp: App {

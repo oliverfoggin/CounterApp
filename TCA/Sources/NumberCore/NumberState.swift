@@ -6,34 +6,20 @@
 //
 
 import Foundation
+import Analytics
 import ComposableArchitecture
 
-enum Remote<T> {
-	case notAsked
-	case loading
-	case success(T)
-	case failed
-}
+public struct NumberState: Equatable {
+	var number: Int
+	var numberFact: Remote<NumberFact>
 
-extension Remote: Equatable where T: Equatable {}
-
-struct NumberFact: Decodable, Equatable {
-	enum FactType: String, Decodable {
-		case trivia
-		case math
-		case date
-		case year
+	public init(
+		number: Int = 0,
+		numberFact: Remote<NumberFact> = .notAsked
+	) {
+		self.number = number
+		self.numberFact = numberFact
 	}
-
-	let text: String
-	let number: Int
-	let found: Bool
-	let type: FactType
-}
-
-struct NumberState: Equatable {
-	var number: Int = 0
-	var numberFact: Remote<NumberFact> = .notAsked
 
 	var factAlertState: AlertState<NumberAction>? {
 		guard case let .success(fact) = numberFact else {
@@ -49,7 +35,7 @@ struct NumberState: Equatable {
 	}
 }
 
-enum NumberAction: Equatable, AnalyticsAction {
+public enum NumberAction: Equatable, AnalyticsAction {
 	case dismissAlertTapped
 
 	case onAppear
@@ -60,7 +46,7 @@ enum NumberAction: Equatable, AnalyticsAction {
 	case getFactTapped
 	case factReceived(Result<NumberFact?, Never>)
 
-	var event: Event {
+	public var event: Event {
 		switch self {
 		case let .randomNumberReceived(.success(number?)):
 			return .init(name: "randomNumberReceived", parameters: ["number": number])
@@ -80,19 +66,19 @@ enum NumberAction: Equatable, AnalyticsAction {
 	}
 }
 
-struct NumberEnvironment {
+public struct NumberEnvironment {
 	let numberClient: NumberClient
 	let main: AnySchedulerOf<DispatchQueue>
 }
 
-extension NumberEnvironment {
+public extension NumberEnvironment {
 	static var live: Self = .init(
 		numberClient: .live,
 		main: .main
 	)
 }
 
-let numberReducer = Reducer<NumberState, NumberAction, NumberEnvironment> {
+public let numberReducer = Reducer<NumberState, NumberAction, NumberEnvironment> {
 	state, action, environment in
 
 	struct FactRequestId: Hashable {}

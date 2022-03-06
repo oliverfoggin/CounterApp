@@ -9,16 +9,16 @@ import SwiftUI
 import ComposableArchitecture
 import FirebaseAnalytics
 
-struct ContentView: View {
+public struct ContentView: View {
 	let store: Store<NumberState, NumberAction>
 	@ObservedObject var viewStore: ViewStore<NumberState, NumberAction>
 
-	init(store: Store<NumberState, NumberAction>) {
+	public init(store: Store<NumberState, NumberAction>) {
 		self.store = store
 		self.viewStore = ViewStore(store)
 	}
 
-	var body: some View {
+	public var body: some View {
 		NavigationView {
 			VStack {
 				Text("\(viewStore.number)")

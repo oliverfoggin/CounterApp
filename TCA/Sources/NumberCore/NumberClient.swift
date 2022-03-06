@@ -8,13 +8,13 @@
 import Foundation
 import ComposableArchitecture
 
-struct NumberClient {
+public struct NumberClient {
 	var getFact: (_ number: Int) -> Effect<NumberFact?, Never>
 	var getRandomNumber: () -> Effect<Int?, Never>
 }
 
 extension NumberClient {
-	static var live: Self = .init(
+	public static var live: Self = .init(
 		getFact: { number in
 			Effect.task {
 				do {
