@@ -24,6 +24,7 @@ public struct NumberListView: View {
 			})
 				.onDelete { self.viewStore.send(.delete($0)) }
 		}
+		.onAppear { viewStore.send(.onAppear) }
 		.navigationTitle("Numbers App")
 		.toolbar {
 			ToolbarItem(placement: .navigationBarTrailing) {

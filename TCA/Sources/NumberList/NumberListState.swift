@@ -15,6 +15,7 @@ public struct NumberListState: Equatable {
 public enum NumberListAction: AnalyticsAction {
 	case addButtonTapped
 	case delete(IndexSet)
+	case onAppear
 
 	case numberAction(id: NumberState.ID, NumberAction)
 
@@ -25,6 +26,9 @@ public enum NumberListAction: AnalyticsAction {
 
 		case .delete(_):
 			return .event(name: "delete_button_tapped", parameters: nil)
+
+		case .onAppear:
+			return .screen(screenName: "Number list", className: "")
 
 		case let .numberAction(id: _, action):
 			return action.event
@@ -61,6 +65,9 @@ let numberListReducer = Reducer<NumberListState, NumberListAction, NumberListEnv
 		return .none
 
 	case .numberAction(id: let id, _):
+		return .none
+
+	case .onAppear:
 		return .none
 	}
 }
