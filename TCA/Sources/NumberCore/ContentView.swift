@@ -19,70 +19,68 @@ public struct ContentView: View {
 	}
 
 	public var body: some View {
-		NavigationView {
-			VStack {
-				Text("\(viewStore.number)")
-					.font(.title)
-					.fontWeight(.bold)
-					.padding()
+		VStack {
+			Text("\(viewStore.number)")
+				.font(.title)
+				.fontWeight(.bold)
+				.padding()
 
-				HStack {
-					Button {
-						viewStore.send(.decrementTapped)
-					} label: {
-						Text(Image(systemName: "minus"))
-							.font(.title)
-							.fontWeight(.bold)
-							.foregroundColor(Color(white: 0.5))
-							.frame(width: 44, height: 44)
-							.padding()
-							.background(Color(white: 0.95))
-							.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-					}
-
-					Button {
-						viewStore.send(.incrementTapped)
-					} label: {
-						Text(Image(systemName: "plus"))
-							.font(.title)
-							.fontWeight(.bold)
-							.foregroundColor(Color(white: 0.5))
-							.frame(width: 44, height: 44)
-							.padding()
-							.background(Color(white: 0.95))
-							.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-					}
+			HStack {
+				Button {
+					viewStore.send(.decrementTapped)
+				} label: {
+					Text(Image(systemName: "minus"))
+						.font(.title)
+						.fontWeight(.bold)
+						.foregroundColor(Color(white: 0.5))
+						.frame(width: 44, height: 44)
+						.padding()
+						.background(Color(white: 0.95))
+						.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 				}
 
 				Button {
-					viewStore.send(.getFactTapped)
+					viewStore.send(.incrementTapped)
 				} label: {
-					Text("Get Fact")
+					Text(Image(systemName: "plus"))
 						.font(.title)
+						.fontWeight(.bold)
 						.foregroundColor(Color(white: 0.5))
+						.frame(width: 44, height: 44)
 						.padding()
-						.frame(width: 150, alignment: .center)
 						.background(Color(white: 0.95))
 						.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 				}
 			}
-			.alert(store.scope(state: \.factAlertState), dismiss: .dismissAlertTapped)
-			.navigationTitle("Number App")
-			.toolbar {
-				ToolbarItem(placement: .navigationBarTrailing) {
-					Button {
-						viewStore.send(.getRandomNumberTapped)
-					} label: {
-						Text(Image(systemName: "questionmark"))
-							.font(.title)
-							.fontWeight(.bold)
-							.foregroundColor(Color(white: 0.5))
-					}
+
+			Button {
+				viewStore.send(.getFactTapped)
+			} label: {
+				Text("Get Fact")
+					.font(.title)
+					.foregroundColor(Color(white: 0.5))
+					.padding()
+					.frame(width: 150, alignment: .center)
+					.background(Color(white: 0.95))
+					.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+			}
+		}
+		.alert(store.scope(state: \.factAlertState), dismiss: .dismissAlertTapped)
+		.navigationTitle("Number")
+		.toolbar {
+			ToolbarItem(placement: .navigationBarTrailing) {
+				Button {
+					viewStore.send(.getRandomNumberTapped)
+				} label: {
+					Text(Image(systemName: "questionmark"))
+						.font(.title)
+						.fontWeight(.bold)
+						.foregroundColor(Color(white: 0.5))
 				}
 			}
-			.onAppear {
-				viewStore.send(.onAppear)
-			}
+		}
+		.onAppear {
+			viewStore.send(.onAppear)
 		}
 	}
 }

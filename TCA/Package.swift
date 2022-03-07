@@ -8,6 +8,8 @@ let package = Package(
 	products: [
 		.library(name: "Analytics", targets: ["Analytics"]),
 		.library(name: "NumberCore", targets: ["NumberCore"]),
+		.library(name: "NumberList", targets: ["NumberList"]),
+		.library(name: "Services", targets: ["Services"]),
 	],
 	dependencies: [
 		.package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.33.1"),
@@ -24,6 +26,7 @@ let package = Package(
 		.target(
 			name: "NumberCore",
 			dependencies: [
+				"Services",
 				"Analytics",
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
 			]
@@ -33,6 +36,21 @@ let package = Package(
 			dependencies: [
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
 			]
-		)
+		),
+		.target(
+			name: "NumberList",
+			dependencies: [
+				"Analytics",
+				"NumberCore",
+				"Services",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+			]
+		),
+		.target(
+			name: "Services",
+			dependencies: [
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+			]
+		),
 	]
 )

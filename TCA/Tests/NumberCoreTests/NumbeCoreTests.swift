@@ -1,5 +1,6 @@
 import XCTest
 import ComposableArchitecture
+import Services
 @testable import NumberCore
 
 class NumberAppTCATests: XCTestCase {

@@ -8,7 +8,7 @@
 import SwiftUI
 import Firebase
 import ComposableArchitecture
-import NumberCore
+import NumberList
 
 @main
 struct NumberAppTCAApp: App {
@@ -18,13 +18,22 @@ struct NumberAppTCAApp: App {
 
 	var body: some Scene {
 		WindowGroup {
-			ContentView(
-				store: .init(
-					initialState: .init(),
-					reducer: numberReducer,
-					environment: .live
+			NavigationView {
+				NumberListView(
+					store: Store(
+						initialState: .init(),
+						reducer: appReducer,
+						environment: .live
+					)
 				)
-			)
+			}
+//			ContentView(
+//				store: .init(
+//					initialState: .init(),
+//					reducer: numberReducer,
+//					environment: .live
+//				)
+//			)
 		}
 	}
 }

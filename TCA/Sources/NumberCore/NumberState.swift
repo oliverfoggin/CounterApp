@@ -8,17 +8,21 @@
 import Foundation
 import Analytics
 import ComposableArchitecture
+import Services
 
-public struct NumberState: Equatable {
-	var number: Int
-	var numberFact: Remote<NumberFact>
+public struct NumberState: Equatable, Identifiable {
+	public let id: UUID
+	public var number: Int
+	public var numberFact: Remote<NumberFact>
 
 	public init(
 		number: Int = 0,
-		numberFact: Remote<NumberFact> = .notAsked
+		numberFact: Remote<NumberFact> = .notAsked,
+		id: UUID = .init()
 	) {
 		self.number = number
 		self.numberFact = numberFact
+		self.id = id
 	}
 
 	var factAlertState: AlertState<NumberAction>? {
@@ -130,5 +134,3 @@ public let numberReducer = Reducer<NumberState, NumberAction, NumberEnvironment>
 		return .none
 	}
 }
-	.debug()
-	.analytics()

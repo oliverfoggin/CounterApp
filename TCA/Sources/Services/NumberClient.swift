@@ -9,8 +9,8 @@ import Foundation
 import ComposableArchitecture
 
 public struct NumberClient {
-	var getFact: (_ number: Int) -> Effect<NumberFact?, Never>
-	var getRandomNumber: () -> Effect<Int?, Never>
+	public var getFact: (_ number: Int) -> Effect<NumberFact?, Never>
+	public var getRandomNumber: () -> Effect<Int?, Never>
 }
 
 extension NumberClient {
